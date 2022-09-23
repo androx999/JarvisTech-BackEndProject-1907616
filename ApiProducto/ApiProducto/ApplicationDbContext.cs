@@ -11,5 +11,7 @@ namespace ApiProducto
         }
 
         public DbSet<Producto> Productos { get; set; }
+
+        public DbSet<Inventario> Inventario { get; set; }
     }
 }
