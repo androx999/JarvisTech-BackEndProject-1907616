@@ -1,6 +1,7 @@
 ﻿using ApiProducto.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Inventario = ApiProducto.Entidades.Inventario;
 
 namespace ApiProducto.Controllers
 {
@@ -17,6 +18,7 @@ namespace ApiProducto.Controllers
 
         [HttpGet]
 
+
         public async Task<ActionResult<List<Inventario>>> GetAll()
         {
             return await dbContext.Inventario.ToListAsync();
@@ -30,22 +32,22 @@ namespace ApiProducto.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult> Post(Inventario inventario)
+        public async Task<ActionResult> Post(Inventario y)
         {
-            var productoexiste = await dbContext.Productos.AnyAsync(x => x.Id == inventario.ProductoId);
+            var productoexiste = await dbContext.Productos.AnyAsync(x => x.Id == y.ProductoId);
 
             if (!productoexiste)
             {
-                return BadRequest($"No existe el producto con el id: {inventario.ProductoId}");
+                return BadRequest($"No existe el producto con el id: {y.ProductoId}");
             }
 
-            dbContext.Add(inventario);
+            dbContext.Add(y);
             await dbContext.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Inventario inventario, int id)
+        public async Task<ActionResult> Put(Inventario y, int id)
         {
             var exist = await dbContext.Inventario.AnyAsync(x => x.Id == id);
 
@@ -54,12 +56,12 @@ namespace ApiProducto.Controllers
             return NotFound("La clase especificada no existe");
             }
 
-            if(inventario.Id != id)
+            if(y.Id != id)
             {
                 return BadRequest("El id de la clase no coincide con el establecido ");
             }
 
-            dbContext.Update(inventario);
+            dbContext.Update(y);
             await dbContext.SaveChangesAsync();
             return Ok();
         }
