@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "Hash": "euzGSjavpaJZy2BI8jy/zSGihCl29H4qz4KSEgmPd/c=",
+  "Source": "ApiProducto",
+  "BasePath": "_content/ApiProducto",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ApiProducto\\wwwroot",
+      "Source": "ApiProducto",
+      "ContentRoot": "C:\\Users\\Andrés Briseño\\OneDrive\\Documentos\\ProyectoBackEnd\\ApiProducto\\ApiProducto\\wwwroot\\",
+      "BasePath": "_content/ApiProducto",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Andrés Briseño\\OneDrive\\Documentos\\ProyectoBackEnd\\ApiProducto\\ApiProducto\\wwwroot\\nuevosProductos.txt",
+      "SourceId": "ApiProducto",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Andrés Briseño\\OneDrive\\Documentos\\ProyectoBackEnd\\ApiProducto\\ApiProducto\\wwwroot\\",
+      "BasePath": "_content/ApiProducto",
+      "RelativePath": "nuevosProductos.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\nuevosProductos.txt"
+    },
+    {
+      "Identity": "C:\\Users\\Andrés Briseño\\OneDrive\\Documentos\\ProyectoBackEnd\\ApiProducto\\ApiProducto\\wwwroot\\Productos.txt",
+      "SourceId": "ApiProducto",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Andrés Briseño\\OneDrive\\Documentos\\ProyectoBackEnd\\ApiProducto\\ApiProducto\\wwwroot\\",
+      "BasePath": "_content/ApiProducto",
+      "RelativePath": "Productos.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Productos.txt"
+    },
+    {
+      "Identity": "C:\\Users\\Andrés Briseño\\OneDrive\\Documentos\\ProyectoBackEnd\\ApiProducto\\ApiProducto\\wwwroot\\productosConsultados.txt",
+      "SourceId": "ApiProducto",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Andrés Briseño\\OneDrive\\Documentos\\ProyectoBackEnd\\ApiProducto\\ApiProducto\\wwwroot\\",
+      "BasePath": "_content/ApiProducto",
+      "RelativePath": "productosConsultados.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\productosConsultados.txt"
+    }
+  ]
+}
