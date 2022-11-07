@@ -11,17 +11,16 @@ namespace ApiProducto.Entidades
     {
         public int Id { get; set; }
 
-
+        [Required]
+        [StringLength(maximumLength: 250, ErrorMessage = "El campo {0} solo puede tener hasta 250 caracteres")]
         [PrimeraLetraMayuscula]
-
         public string Name { get; set; }
 
-        public string Category { get; set; }
-
-        public int SerialN { get; set; }
-
+        public DateTime? FechaRegistro { get; set; }
         
-        public Producto? Producto { get; set; }
+
+        public List<Marcas>? Marcas { get; set; }
+        public List<ProductoInventario> ProductoInventario { get; set; }
 
     }
 }

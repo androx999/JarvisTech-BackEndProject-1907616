@@ -1,10 +1,11 @@
-﻿using ApiProducto.Entidades;
-using ApiProducto.Filtros;
-using ApiProducto.Services;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ApiProducto.DTOs;
+using ApiProducto.Entidades;
+
 
 namespace ApiProducto.Controllers
 {
@@ -15,28 +16,25 @@ namespace ApiProducto.Controllers
     public class ProductosController:ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IService service;
+        /*private readonly IService service;
         private readonly ServiceTransient serviceTransient;
         private readonly ServiceScoped serviceScoped;
         private readonly ServiceSingleton serviceSingleton;
         private readonly ILogger<ProductosController> logger;
         private readonly IWebHostEnvironment env;
-        private readonly string productosConsultados = "productosConsultados.txt";
+        private readonly string productosConsultados = "productosConsultados.txt";*/
+        private readonly IMapper mapper;
+        private readonly IConfiguration configuration;
 
-        public ProductosController(ApplicationDbContext context, IService service,
-            ServiceTransient serviceTransient, ServiceScoped serviceScoped, ServiceSingleton serviceSingleton,
-            ILogger<ProductosController> logger, IWebHostEnvironment env)
+
+        public ProductosController(ApplicationDbContext context, IMapper mapper, IConfiguration configuration)
         {
             this.dbContext = context;
-            this.service = service;
-            this.serviceTransient = serviceTransient;
-            this.serviceScoped = serviceScoped;
-            this.serviceSingleton = serviceSingleton;
-            this.logger = logger;
-            this.env = env;
+            this.mapper = mapper;
+            this.configuration = configuration;
         }
 
-        [HttpGet("GUID")]
+        /*[HttpGet("GUID")]
         [ResponseCache(Duration = 10)]
         [ServiceFilter(typeof(FiltroDeAccion))]
         public ActionResult ObtenerGuid()
@@ -106,25 +104,60 @@ namespace ApiProducto.Controllers
 
             return producto;
         }
+        */
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<GetProductoDTO>>> Get()
+        {
+            var productos = await dbContext.Productos.ToListAsync();
+            return mapper.Map<List<GetProductoDTO>>(productos);
+        }
+
+        [HttpGet("{id:int}",Name = "obtenerproducto")]
+        public async Task<ActionResult<ProductoDTOConInventarios>> Get(int id)
+        {
+            var producto = await dbContext.Productos
+                .Include(productoDB => productoDB.ProductoInventario)
+                .ThenInclude(productoInventarioDB => productoInventarioDB.Inventario)
+                .FirstOrDefaultAsync(productoBD => productoBD.Id == id);
+
+            if(producto == null)
+            {
+                return NotFound();
+            }
+
+            return mapper.Map<ProductoDTOConInventarios>(producto);
+        }
+
+        [HttpGet("{nombre}")]
+        public async Task<ActionResult<List<GetProductoDTO>>> Get([FromRoute] string nombre)
+        {
+            var productos = await dbContext.Productos.Where(productoBD => productoBD.Name.Contains(nombre)).ToListAsync();
+
+            return mapper.Map<List<GetProductoDTO>>(productos);
+        }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Producto producto)
+        public async Task<ActionResult> Post([FromBody] ProductoDTO productoDto)
         {
-            var existeProductoMismoNombre = await dbContext.Productos.AnyAsync(x => x.Name == producto.Name);
+            var existeProductoMismoNombre = await dbContext.Productos.AnyAsync(x => x.Name == productoDto.Nombre);
 
             if (existeProductoMismoNombre)
             {
                 return BadRequest("Ya existe un producto con ese nombre");
             }
 
+            var producto = mapper.Map<Producto>(productoDto);
 
             dbContext.Add(producto);
             await dbContext.SaveChangesAsync();
-            return Ok(producto);
+            var productoDTO = mapper.Map<GetProductoDTO>(producto);
+            return CreatedAtRoute("obtenerproducto",new {id = producto.Id}, productoDTO);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Producto producto, int id)
+        public async Task<ActionResult> Put(ProductoDTO productoCreacionDTO, int id)
         {
             var exist = await dbContext.Productos.AnyAsync(x => x.Id == id);
             if (!exist)
@@ -132,14 +165,12 @@ namespace ApiProducto.Controllers
                 return NotFound();
             }
 
-            if (producto.Id != id)
-            {
-                return BadRequest("El id del alumno no coincide con el establecido en la url");
-            }
+            var producto = mapper.Map<Producto>(productoCreacionDTO);
+            producto.Id = id;
 
             dbContext.Update(producto);
             await dbContext.SaveChangesAsync();
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("{id:int}")]

@@ -22,32 +22,6 @@ namespace ApiProducto.Entidades
         [NotMapped]
         public int Price { get; set; }
 
-        public List<Inventario>? inventarios { get; set; }
-
-        [NotMapped]
-        public int Menor { get; set; }
-
-        [NotMapped]
-        public int Mayor { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (!string.IsNullOrEmpty(Name))
-            {
-                var primeraLetra = Name[0].ToString();
-
-                if (primeraLetra != primeraLetra.ToUpper())
-                {
-                    yield return new ValidationResult("La primera letra debe ser mayuscula",
-                        new String[] { nameof(Name) });
-                }
-            }
-
-            if (Menor > Mayor)
-            {
-                yield return new ValidationResult("Este valor no puede ser mas grande que el campo Mayor",
-                    new String[] { nameof(Menor) });
-            }
-        }
+        public List<ProductoInventario>? ProductoInventario { get; set; }
     }
 }
