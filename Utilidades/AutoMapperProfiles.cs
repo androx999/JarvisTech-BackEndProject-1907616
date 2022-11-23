@@ -10,13 +10,16 @@ namespace ApiProducto.Utilidades
         {
             CreateMap<ProductoDTO, Producto>();
             CreateMap<Producto, GetProductoDTO>();
-            CreateMap<Producto, ProductoDTOConInventario>()
-                .ForMember(ProductoDTO => ProductoDTO.Inventario, opciones => opciones.MapFrom(MapProductoDTOInventario));
+            CreateMap<Producto, ProductoDTOConInventarios>()
+                .ForMember(ProductoDTO => ProductoDTO.InventarioDTOs, opciones => opciones.MapFrom(MapProductoDTOInventario));
             CreateMap<InventarioCreacionDTO, Inventario>()
                 .ForMember(inventario => inventario.ProductoInventario, opciones => opciones.MapFrom(MapProductoInventario));
             CreateMap<Inventario, InventarioDTO>();
-            CraeteMap<Inventario, InventarioDTOConProductos>();
-            .ForMember(inventarioDTO => inventarioDTO.Productos, opciones => opciones.MapFrom(MapInventarioDTOProductos));
+            CreateMap<Inventario, InventarioDTOConProductos>()
+            .ForMember(inventarioDTO => inventarioDTO.Productos, opciones =>
+            {
+                opciones.MapFrom(MapInventarioDTOProductos);
+            });
             CreateMap<InventarioPatchDTO, Inventario>().ReverseMap();
             CreateMap<MarcaCreacionDTO, Marcas>();
             CreateMap<Marcas, MarcaDTO>();
@@ -33,8 +36,8 @@ namespace ApiProducto.Utilidades
             {
                 result.Add(new InventarioDTO()
                 {
-                    SerialN = productoInvetario.SerialN,
-                    Name = productoInvetario.Name
+                    Id = productoInvetario.ProductoId,
+                    Name = productoInvetario.ProductoName
                 });
             }
             return result;

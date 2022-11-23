@@ -23,7 +23,7 @@ namespace ApiProducto.Controllers
         private readonly ILogger<ProductosController> logger;
         private readonly IWebHostEnvironment env;
         private readonly string productosConsultados = "productosConsultados.txt";*/
-        private readonly IMapper mapper;
+        private readonly IMapper mapper;//
         private readonly IConfiguration configuration;
 
 
